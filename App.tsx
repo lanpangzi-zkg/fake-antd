@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { Button, ConfigProvider } from './components';
 import './style.css';
 
 export default function App() {
   return (
-    <div>
-      <h1>Hello StackBlitz!</h1>
-      <p>Start editing to see some magic happen :)</p>
-    </div>
+    <ConfigProvider>
+      <Button>哈哈</Button>
+    </ConfigProvider>
   );
 }
