@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { ConfigContext } from '../config-provider';
+import useStyle from './style';
 
 export type ButtonProps = {
   children?: React.ReactNode;
@@ -16,6 +17,7 @@ const InternalButton: React.ForwardRefRenderFunction<
   const { autoInsertSpaceInButton, getPrefixCls } =
     React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('btn', customizePrefixCls);
+  // const [wrapSSR, hashId] = useStyle(prefixCls);
   const classes = classNames(prefixCls, {});
   return <button className={classes}>{children}</button>;
 };
