@@ -1,12 +1,21 @@
 import * as React from 'react';
 import hash from '@emotion/hash';
 
+function injectSelectorHash(key: string, hashId: string) {
+  if (!hashId) {
+    return key;
+  }
+  const hashClassName = `.${hashId}`;
+  const hashSelector = `:where(${hashClassName})`;
+  return `${key}${hashSelector}`;
+}
+
 function parseStyle(
   interpolation: any[],
   config: ParseConfig = {},
   root: boolean = true
 ): string {
-  const { hashId, path } = config;
+  const { hashId } = config;
   let styleStr = '';
   interpolation.forEach((originStyle) => {
     if (typeof originStyle === 'string') {
@@ -15,8 +24,9 @@ function parseStyle(
       Object.keys(originStyle).forEach((key) => {
         const value = originStyle[key];
         if (typeof value === 'object') {
+          const mergedKey = injectSelectorHash(key, hashId);
           const parsedStr = parseStyle([value], config, false);
-          styleStr += `${key}${parsedStr}`;
+          styleStr += `${mergedKey}${parsedStr}`;
         } else {
           const styleName = key.replace(
             /[A-Z]/g,
