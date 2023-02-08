@@ -41,7 +41,41 @@ export interface ParseConfig {
 function uniqueHash(path: (string | number)[], styleStr: string) {
   return hash(`${path.join('%')}${styleStr}`);
 }
-function updateCSS(css: string, key: string) {}
+function getContainer() {
+  return document.querySelector('head') || document.body;
+}
+export type ContainerType = Element | ShadowRoot;
+
+function findStyles(container: ContainerType) {
+  return Array.from(container.children).filter(
+    (node) => node.tagName === 'STYLE'
+  ) as HTMLStyleElement[];
+}
+function findExistNode(key: string) {
+  const container = getContainer();
+  return findStyles(container).find(
+    (node) => node.getAttribute('data-css-hash') === key
+  );
+}
+function injectCSS(css: string) {
+  const styleNode = document.createElement('style');
+  styleNode.innerHTML = css;
+  const containter = getContainer();
+  containter.appendChild(styleNode);
+  return styleNode;
+}
+function updateCSS(css: string, key: string) {
+  const exsitNode = findExistNode(key);
+  if (exsitNode) {
+    if (exsitNode.innerHTML !== css) {
+      exsitNode.innerHTML = css;
+    }
+    return;
+  }
+  const newNode = injectCSS(css);
+  newNode.setAttribute('data-css-hash', key);
+  return newNode;
+}
 export default function useStyleRegister(
   info: {
     token: any;
@@ -60,7 +94,6 @@ export default function useStyleRegister(
   });
   const styleId = uniqueHash(fullPath, parsedStyle);
   updateCSS(parsedStyle, styleId);
-  console.log(parsedStyle);
   return (node: React.ReactElement) => {
     return <React.Fragment>{node}</React.Fragment>;
   };

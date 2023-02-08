@@ -4,9 +4,10 @@ function getButtonStyle(token: any) {
   const { componentCls } = token;
   return {
     [`${componentCls}`]: {
-      borderColor: token.colorPrimary,
       border: '1px solid',
       background: '#fff',
+      color: token.colorPrimary,
+      borderColor: token.colorPrimary,
       borderRadius: token.borderRadius,
     },
   };
