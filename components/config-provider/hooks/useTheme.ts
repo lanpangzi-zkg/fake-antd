@@ -14,7 +14,7 @@ export default function useTheme(
     ...parentThemeConfig,
     ...themeConfig,
     token: {
-      ...parentTheme.token,
+      ...parentThemeConfig.token,
       ...themeConfig.token,
     },
   };

@@ -53,8 +53,8 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
     return {
       ...rest,
       token: {
-        ...token,
         ...defaultSeedToken,
+        ...token,
       },
     };
   }, [mergedTheme]);
