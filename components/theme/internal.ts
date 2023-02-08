@@ -34,7 +34,7 @@ function token2key(token: any, salt?: string): string {
 export function useToken(): [any, string] {
   const { token: rootDesignToken } = React.useContext(DesignTokenContext);
   const mergedToken: AliasToken & { _tokenKey: string } = React.useMemo(
-    () => Object.assign({}, defaultConfig, rootDesignToken) as any,
+    () => Object.assign({}, defaultConfig.token, rootDesignToken) as any,
     [defaultSeedToken, rootDesignToken]
   );
   const tokenKey = token2key(mergedToken);

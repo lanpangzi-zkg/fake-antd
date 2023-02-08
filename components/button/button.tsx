@@ -37,7 +37,7 @@ const InternalButton: React.ForwardRefRenderFunction<
     children || children === 0
       ? spaceChildren(children, isNeedInserted() && autoInsertSpace)
       : null;
-  return (
+  return wrapSSR(
     <button {...rest} ref={buttonRef} onClick={handleClick} className={classes}>
       {kids}
     </button>
