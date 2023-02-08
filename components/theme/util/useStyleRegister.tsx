@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-function parseStyle(interpolation: any, config: ParseConfig = {}): string {
+function parseStyle(
+  interpolation: any[],
+  config: ParseConfig = {},
+  root: boolean = true
+): string {
   const { hashId, path } = config;
   let styleStr = '';
+  interpolation.forEach((originStyle) => {});
   return styleStr;
 }
 export interface ParseConfig {
   hashId?: string;
   path?: string;
 }
+
 export default function useStyleRegister(
   info: {
     token: any;
