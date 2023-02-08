@@ -23,3 +23,5 @@ const defaultGetPrefixCls = (
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   getPrefixCls: defaultGetPrefixCls,
 });
+
+export const { Consumer: ConfigConsumer } = ConfigContext;

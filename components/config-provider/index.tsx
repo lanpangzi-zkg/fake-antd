@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ConfigConsumerProps, ConfigContext } from './context';
+import useTheme from './hooks/useTheme';
 import type { DirectionType, ThemeConfig } from './context';
 import { DesignTokenContext, defaultSeedToken } from '../theme/internal';
-import useTheme from './hooks/useTheme';
+import { ConfigConsumerProps, ConfigContext, ConfigConsumer } from './context';
 export { ConfigContext };
 
 export interface ConfigProviderProps {
@@ -27,7 +27,7 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
         return customizePrefixCls;
       }
       const mergedPrefixCls = prefixCls || parentContext.getPrefixCls('');
-      return suffixCls ? `${mergedPrefixCls}-${suffixCls}` : prefixCls;
+      return suffixCls ? `${mergedPrefixCls}-${suffixCls}` : mergedPrefixCls;
     },
     [parentContext.getPrefixCls, props.prefixCls]
   );
@@ -73,8 +73,11 @@ const ProviderChildren: React.FC<ProviderChildrenProps> = (props) => {
 };
 
 const ConfigProvider: React.FC<ConfigProviderProps> = (props) => {
-  const parentContext = React.useContext(ConfigContext);
-  return <ProviderChildren parentContext={parentContext} {...props} />;
+  return (
+    <ConfigConsumer>
+      {(context) => <ProviderChildren parentContext={context} {...props} />}
+    </ConfigConsumer>
+  );
 };
 
 export default ConfigProvider;
